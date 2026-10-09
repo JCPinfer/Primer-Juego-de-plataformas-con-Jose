@@ -3,9 +3,12 @@ using UnityEngine;
 public class Movimiento : MonoBehaviour
 {
     // Variables de movimiento del jugador
-    [SerializeField] float velocidad = 5.0f;
+    [Header("Configuración de Movimiento")]
+    [SerializeField] float velocidadx = 5.0f;
+    [SerializeField] float velocidady = 10.0f;
     [SerializeField] float movimientox = 0f;
     [SerializeField] float movimientoy = 0f;
+
     private Rigidbody2D rb;
     private bool tocandoSuelo;
 
@@ -21,8 +24,10 @@ public class Movimiento : MonoBehaviour
         
         if (!tocandoSuelo)
             movimientoy = 0f;
-        
-        rb.AddForce(new Vector2(movimientox * velocidad, movimientoy * velocidad), ForceMode2D.Impulse);
+
+        rb.AddForce(new Vector2(movimientox * velocidadx, 0));
+        //rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocityY); // PRUEBAS RARAS
+        rb.AddForce(new Vector2(0, movimientoy * velocidady), ForceMode2D.Impulse);
 
     }
 
@@ -43,6 +48,4 @@ public class Movimiento : MonoBehaviour
             Debug.Log(tocandoSuelo);
         }
     }
-
-
 }
