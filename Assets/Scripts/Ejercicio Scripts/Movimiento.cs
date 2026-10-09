@@ -2,16 +2,17 @@ using UnityEngine;
 
 public class Movimiento : MonoBehaviour
 {
+    
     // Variables de movimiento del jugador
     [Header("Configuración de Movimiento")]
     [SerializeField] float velocidadx = 5.0f;
-    [SerializeField] float velocidady = 10.0f;
+    [SerializeField] float velocidady = 6.0f;
     [SerializeField] float movimientox = 0f;
     [SerializeField] float movimientoy = 0f;
 
     private Rigidbody2D rb;
     private bool tocandoSuelo;
-
+    
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -24,11 +25,22 @@ public class Movimiento : MonoBehaviour
         
         if (!tocandoSuelo)
             movimientoy = 0f;
+        
+        //Eje X
+        //Utilizo linearVelocity en vez de AddForce para movimiento más preciso
+        //EN AMBOS, INCLUYO LA VELOCIDAD LINEAL DEL EJE OPUESTO PARA QUE NO SE PIERDA DURANTE EL MOVIMIENTO
+        // Ej: Si salto, mantener la velocidad de movimiento
+        rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
+        
+        //Eje Y
+        // rb.AddForce(new Vector2(0, movimientoy * velocidady), ForceMode2D.Impulse); //ANNTIGUO
+        if ( movimientoy!= 0 && tocandoSuelo )
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
 
-        rb.AddForce(new Vector2(movimientox * velocidadx, 0));
-        //rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocityY); // PRUEBAS RARAS
-        rb.AddForce(new Vector2(0, movimientoy * velocidady), ForceMode2D.Impulse);
-
+            //LinearVelocity permite ser mas preciso EN ESTE CASO SOLAMENT, pero es recomendable utilizar rb.AddForce para fisicas más realistas
+            //https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody-linearVelocity.html
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
