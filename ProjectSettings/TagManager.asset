@@ -8,6 +8,7 @@ TagManager:
   - Plataformas
   - Moneda
   - ParedInvisible
+  - AbismoTrigger
   layers:
   - Default
   - TransparentFX

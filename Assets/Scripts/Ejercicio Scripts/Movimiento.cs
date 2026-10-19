@@ -13,6 +13,7 @@ public class Movimiento : MonoBehaviour
     private Rigidbody2D rb;
     private bool tocandoSuelo;
     
+    #region Start & Update  
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -42,7 +43,9 @@ public class Movimiento : MonoBehaviour
             //https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody-linearVelocity.html
         }
     }
+    #endregion
 
+    #region Colisiones y salto
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "Plataformas")
@@ -60,4 +63,5 @@ public class Movimiento : MonoBehaviour
             Debug.Log(tocandoSuelo);
         }
     }
+    #endregion
 }

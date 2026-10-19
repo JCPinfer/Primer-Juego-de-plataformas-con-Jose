@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] float movimientoy = 0f;
     [SerializeField] TextMeshProUGUI panelPuntuacion;
     [SerializeField] TextMeshProUGUI panelTiempo;
+    [SerializeField] ParticleSystem particulasFX;
     private Rigidbody2D rb;
     private bool tocandoSuelo = false;
     public int puntuacion = 0;
@@ -62,6 +63,10 @@ public class PlayerMovement : MonoBehaviour
             //Destroy(collision.gameObject);
             
             Debug.Log("Puntuación: " + puntuacion);
+
+            //explosion
+            particulasFX.transform.position = transform.position;
+            particulasFX.Play();
         }
 
         if (collision.gameObject.tag == "Plataformas")
@@ -71,6 +76,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         //Debug.Log("Ha colisionado el player");
+        
     }
 
     /*
