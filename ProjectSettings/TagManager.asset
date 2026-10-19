@@ -9,6 +9,7 @@ TagManager:
   - Moneda
   - ParedInvisible
   - AbismoTrigger
+  - DamagePlayer
   layers:
   - Default
   - TransparentFX
