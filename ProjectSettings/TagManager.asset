@@ -10,6 +10,8 @@ TagManager:
   - ParedInvisible
   - AbismoTrigger
   - DamagePlayer
+  - KeyObject
+  - Llave
   layers:
   - Default
   - TransparentFX

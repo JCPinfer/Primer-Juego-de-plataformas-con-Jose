@@ -34,7 +34,6 @@ public class Movimiento : MonoBehaviour
         rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
         
         //Eje Y
-        // rb.AddForce(new Vector2(0, movimientoy * velocidady), ForceMode2D.Impulse); //ANNTIGUO
         if ( movimientoy!= 0 && tocandoSuelo )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
