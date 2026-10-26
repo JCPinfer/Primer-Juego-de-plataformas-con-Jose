@@ -34,7 +34,8 @@ public class Movimiento : MonoBehaviour
         rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
         
         //Eje Y
-        if ( movimientoy!= 0 && tocandoSuelo )
+        //Pongo el primero para que pueda saltar solamente con W. Solución guarra de momento
+        if ( Input.GetKeyDown(KeyCode.W) || ( movimientoy!= 0 && tocandoSuelo ) )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
 

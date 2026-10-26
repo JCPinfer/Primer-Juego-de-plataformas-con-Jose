@@ -4,15 +4,23 @@ using UnityEngine.SceneManagement;
 
 public class LogicaJuego : MonoBehaviour
 {
+    //Interfaz
+    [SerializeField] GameObject pantallaGameOver;
     [SerializeField] TextMeshProUGUI panelMonedas;
     [SerializeField] TextMeshProUGUI panelCuidado;
     [SerializeField] TextMeshProUGUI panelVidas;
+    
+    //InGame
     [SerializeField] GameObject puerta;
     private Vector2 posicionInicial;
     private int monedas;
     [SerializeField] int vidas;
+
+    //VARIABLES DE ESTADO
     private bool vulnerable;
-    
+    private bool enAire;
+    private int numSaltos;
+
     void Start()
     {
         //https://discussions.unity.com/t/how-can-you-enable-disable-textmeshpro-text-in-a-script/743447
@@ -26,6 +34,8 @@ public class LogicaJuego : MonoBehaviour
         posicionInicial = this.transform.position;
 
         vulnerable = true;
+
+        pantallaGameOver.SetActive(false);
         
     }
     void Update()
@@ -36,12 +46,13 @@ public class LogicaJuego : MonoBehaviour
     #region Colisiones
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        /*
         if(collision.gameObject.tag == "Moneda")
         {
             collision.gameObject.SetActive(false);
             monedas++;
             panelMonedas.text = "Monedas: " + monedas.ToString();
-        }
+        }*/
 
         if (collision.gameObject.CompareTag("DamagePlayer"))
         {
@@ -61,9 +72,16 @@ public class LogicaJuego : MonoBehaviour
                 vulnerable = true ;
             }
             else
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                pantallaGameOver.SetActive(true);
             
         }
+        /*
+        if (collision.gameObject.CompareTag("KeyObject"))
+        {
+            collision.gameObject.SetActive(false);
+            puerta.SetActive(false);
+        }
+        */
     }
 
     private void OnCollisionExit2D(Collision2D collision)
@@ -73,10 +91,26 @@ public class LogicaJuego : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //COIN LOGIC
+        if(collision.gameObject.tag == "Moneda")
+        {
+            collision.gameObject.SetActive(false);
+            monedas++;
+            panelMonedas.text = "Monedas: " + monedas.ToString();
+        }
+
         if (collision.gameObject.CompareTag("AbismoTrigger"))
         {
             panelCuidado.enabled = true;
         }
+
+        //KEY
+        if (collision.gameObject.CompareTag("KeyObject"))
+        {
+            collision.gameObject.SetActive(false);
+            puerta.SetActive(false);
+        }
+        
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -104,4 +138,9 @@ public class LogicaJuego : MonoBehaviour
     - Investigar sobre: Time.timeScale= 0f;
     */
     #endregion
+
+    public void reiniciarPartida()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
 }
