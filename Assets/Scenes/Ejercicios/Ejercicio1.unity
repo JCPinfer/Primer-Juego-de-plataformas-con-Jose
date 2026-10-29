@@ -4595,7 +4595,7 @@ MonoBehaviour:
   panelCuidado: {fileID: 1410711313}
   panelVidas: {fileID: 250643264}
   puerta: {fileID: 1759440473}
-  vidas: 2
+  vidas: 3
 --- !u!95 &1240673950
 Animator:
   serializedVersion: 7
@@ -5763,7 +5763,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1519057672
 MonoBehaviour:
   m_ObjectHideFlags: 0
