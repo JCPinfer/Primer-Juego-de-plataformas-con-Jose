@@ -8,10 +8,13 @@ public class testNuevoInputManager : MonoBehaviour
     [SerializeField] private InputActionProperty saltoAction;
     [SerializeField] private InputActionProperty moveAction;
     [SerializeField] private InputActionProperty disparoAction;
+    [SerializeField] private InputActionProperty acelerarAction;
     
     [Header("Paneles")]
     [SerializeField] TextMeshProUGUI panelEntrada;
     [SerializeField] TextMeshProUGUI panelAccion;
+    [SerializeField] TextMeshProUGUI panelVelocidad;
+    [SerializeField] TextMeshProUGUI panelAtaque;
 
     [Header("Movimiento Player")]
     [SerializeField] private GameObject player;
@@ -21,10 +24,15 @@ public class testNuevoInputManager : MonoBehaviour
     [SerializeField] float movimientox = 0f;
     [SerializeField] float movimientoy = 0f;
 
+    //VARIABLES ACELERACIÓN
+    private float valorAcelerar = 0f ;
+    private float maximoAcelerar = 1.0f;
+
     void Start()
     {
         panelEntrada.text = "";
         panelAccion.text = "";
+        panelVelocidad.text = "";
 
         rb = player.GetComponent<Rigidbody2D>();
     }
@@ -35,10 +43,12 @@ public class testNuevoInputManager : MonoBehaviour
         saltoAction.action.Enable();
         moveAction.action.Enable();
         disparoAction.action.Enable();
+        //acelerarAction.action.Enable();
 
         saltoAction.action.performed += pulsacionSalto;
         moveAction.action.performed += pulsacionMove;
         disparoAction.action.performed += pulsacionDisparo;
+        //acelerarAction.action.performed += pulsacionAcelerar;
     }
 
     private void OnDisable()
@@ -46,10 +56,12 @@ public class testNuevoInputManager : MonoBehaviour
         saltoAction.action.Disable();
         moveAction.action.Disable();
         disparoAction.action.Disable();
+        //acelerarAction.action.Disable();
 
         saltoAction.action.performed -= pulsacionSalto;
         moveAction.action.performed -= pulsacionMove;
         disparoAction.action.performed -= pulsacionDisparo;
+        //acelerarAction.action.performed -= pulsacionAcelerar;
     }
 
     #region Acciones
@@ -57,13 +69,11 @@ public class testNuevoInputManager : MonoBehaviour
     {
         if(context.control.device is Gamepad)
         {
-            Debug.Log("Gamepad - Salto");
             panelEntrada.text = "Gamepad";
         }
         
         else if(context.control.device is Keyboard)
         {
-            Debug.Log("Teclado - Salto");
             panelEntrada.text = "Teclado y Ratón";
         }
         
@@ -77,13 +87,11 @@ public class testNuevoInputManager : MonoBehaviour
     {
         if(context.control.device is Gamepad)
         {
-            Debug.Log("Gamepad - Movimiento");
             panelEntrada.text = "Gamepad";
         }
         
         else if(context.control.device is Keyboard)
         {
-            Debug.Log("Teclado - Movimiento");
             panelEntrada.text = "Teclado y Ratón";
         }
 
@@ -98,17 +106,30 @@ public class testNuevoInputManager : MonoBehaviour
     {
         if(context.control.device is Gamepad)
         {
-            Debug.Log("Gamepad - Disparo");
             panelEntrada.text = "Gamepad";
         }
         
         else if(context.control.device is Mouse)
         {
-            Debug.Log("Teclado - Disparo");
             panelEntrada.text = "Teclado y Ratón";
         }
 
         panelAccion.text = "Disparo";
+    }
+
+    private void pulsacionAcelerar(InputAction.CallbackContext context)
+    {
+        if(context.control.device is Gamepad)
+        {
+            panelEntrada.text = "Gamepad";
+        }
+        
+        else if(context.control.device is Mouse)
+        {
+            panelEntrada.text = "Teclado y Ratón";
+        }
+
+        panelAccion.text = "Acelerar";
     }
 
     #endregion
@@ -129,6 +150,10 @@ public class testNuevoInputManager : MonoBehaviour
         if ( moveAction.action.ReadValue<Vector2>() != Vector2.zero)
             Debug.Log( moveAction.action.ReadValue<Vector2>() );
         */
+
+        // ACELERAR 
+        // Lo hago en UPDATE para que pueda ser continua con .ReadValue<float>()
+        
     }
     #endregion
 }
