@@ -99,9 +99,17 @@ public class LogicaJuego : MonoBehaviour
             panelMonedas.text = "Monedas: " + monedas.ToString();
         }
 
+        //TRIGGERS AVISO PANTALL
         if (collision.gameObject.CompareTag("AbismoTrigger"))
         {
+            panelCuidado.text = "¡¡ABISMO!!";
             panelCuidado.enabled = true;
+        }
+        
+        if (collision.gameObject.CompareTag("TriggerCubo"))
+        {
+            panelCuidado.enabled = true;
+            panelCuidado.text = "¡Empuja el cubo!";
         }
 
         //KEY
@@ -116,6 +124,11 @@ public class LogicaJuego : MonoBehaviour
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("AbismoTrigger"))
+        {
+            panelCuidado.enabled = false;
+        }
+
+        if (collision.gameObject.CompareTag("TriggerCubo"))
         {
             panelCuidado.enabled = false;
         }

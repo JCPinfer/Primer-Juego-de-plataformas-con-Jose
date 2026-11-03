@@ -12,6 +12,7 @@ TagManager:
   - DamagePlayer
   - KeyObject
   - Llave
+  - TriggerCubo
   layers:
   - Default
   - TransparentFX
