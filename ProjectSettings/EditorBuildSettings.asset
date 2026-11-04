@@ -15,4 +15,5 @@ EditorBuildSettings:
     path: Assets/Scenes/Ejercicios/Ejercicio 1/Ejercicio1.unity
     guid: c83a07a5fc950df41909c55729425834
   m_configObjects:
+    com.unity.input.settings: {fileID: 11400000, guid: 4ce14fb9d4d5c17479ba65f12cbe1aea, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 36110310d12daa543ba9207a4a30ce04, type: 3}
