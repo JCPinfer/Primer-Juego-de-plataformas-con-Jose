@@ -1,10 +1,12 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class LogicaJuego : MonoBehaviour
 {
     //Interfaz
+    [Header("Interfaz")]
     [SerializeField] GameObject pantallaGameOver;
     [SerializeField] TextMeshProUGUI panelMonedas;
     [SerializeField] TextMeshProUGUI panelCuidado;
@@ -14,6 +16,7 @@ public class LogicaJuego : MonoBehaviour
     [SerializeField] GameObject interfazJuego;
     [SerializeField] GameObject pantallaPausa;
     //InGame
+    [Header("Variables In-Game")]
     [SerializeField] GameObject puerta;
     private Vector2 posicionInicial;
     private int monedas;
@@ -22,6 +25,11 @@ public class LogicaJuego : MonoBehaviour
     //VARIABLES DE ESTADO
     private bool vulnerable;
     private Movimiento movimientoJugador;
+    
+    [Header("Invulnerabilidad")]
+    [SerializeField] float duracionInvulnerabilidad = 1.5f;
+    [SerializeField] float intervaloParpadeo = 0.3f;
+    private SpriteRenderer spriteRenderer;
 
     void Start()
     {
@@ -48,6 +56,8 @@ public class LogicaJuego : MonoBehaviour
         
         movimientoJugador = GetComponent<Movimiento>();
 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+
     }
     void Update()
     {
@@ -67,6 +77,29 @@ public class LogicaJuego : MonoBehaviour
             //panelDobleSalto.text = movimientoJugador.temporizadorDobleSalto.ToString("F2");
             panelDobleSalto.text = "";
         }
+    }
+
+    private IEnumerator InvulnerabilidadParpadeo()
+    {
+        // DOCUMENTACIÓN OFICIAL SOBRE CORRUTINAS:
+        // https://docs.unity3d.com/es/2018.4/Manual/Coroutines.html
+        
+        vulnerable = false;
+
+        float tiempoTranscurrido = 0f;
+
+        while (tiempoTranscurrido < duracionInvulnerabilidad)
+        {
+            // Alterna entre visible e invisible
+            spriteRenderer.enabled = !spriteRenderer.enabled;
+
+            yield return new WaitForSeconds(intervaloParpadeo);
+            tiempoTranscurrido += intervaloParpadeo;
+        }
+
+        // Vuelve todo a la normalidad
+        spriteRenderer.enabled = true;
+        vulnerable = true;
     }
 
     #region Colisiones
@@ -95,7 +128,10 @@ public class LogicaJuego : MonoBehaviour
             {
                 panelVidas.text = "Vidas: " + vidas.ToString(); 
                 this.transform.position = posicionInicial;
-                vulnerable = true ;
+
+                //CORRUTINA : PERMITO QUE UN MÉTODO PUEDA PARAR EN SU EJECUCIÓN Y RENAUDARSE MÁS TARDE
+                StartCoroutine(InvulnerabilidadParpadeo());
+                //vulnerable = true ;
             }
             else
                 pantallaGameOver.SetActive(true);

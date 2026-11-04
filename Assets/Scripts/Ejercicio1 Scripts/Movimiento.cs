@@ -11,6 +11,7 @@ public class Movimiento : MonoBehaviour
     [SerializeField] float movimientoy = 0f;
 
     //DOBLE SALTO
+    [Header("Doble Salto")]
     public bool tieneDobleSalto;
     [SerializeField] float tiempoDobleSalto;
     public float temporizadorDobleSalto;
