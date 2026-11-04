@@ -10,6 +10,10 @@ public class Movimiento : MonoBehaviour
     [SerializeField] float movimientox = 0f;
     [SerializeField] float movimientoy = 0f;
 
+    //DOBLE SALTO
+    private bool tieneDobleSalto;
+    private float tiempoDobleSalto= 1.0f;
+
     private Rigidbody2D rb;
     private bool tocandoSuelo;
     
@@ -17,6 +21,7 @@ public class Movimiento : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        tieneDobleSalto = true;
     }
 
     void Update()
@@ -42,13 +47,25 @@ public class Movimiento : MonoBehaviour
 
         //Eje Y
         //Pongo el primero para que pueda saltar solamente con W. Solución guarra de momento
-        if ( Input.GetKeyDown(KeyCode.W) || ( movimientoy!= 0 && tocandoSuelo ) )
+
+        //Caso tenga doble salto, permito que el jugador realize UNO solo. Este bool se resetea 
+
+        if ( Input.GetKeyDown(KeyCode.W) &&  movimientoy!= 0 && tocandoSuelo  )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
 
             //LinearVelocity permite ser mas preciso EN ESTE CASO SOLAMENT, pero es recomendable utilizar rb.AddForce para fisicas más realistas
             //https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody-linearVelocity.html
+
+            tieneDobleSalto = true;
         }
+        else if ( Input.GetKeyDown(KeyCode.W) && tieneDobleSalto)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
+            tieneDobleSalto = false;
+        }
+
+        
     }
     #endregion
 
