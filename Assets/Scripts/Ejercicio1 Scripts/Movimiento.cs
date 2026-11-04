@@ -21,7 +21,9 @@ public class Movimiento : MonoBehaviour
 
     void Update()
     {
-        movimientox = Input.GetAxis("Horizontal");
+        // RAW devuelve inmediatamente a 0 al soltar, en vez de bajar gradualmente como el GetAxis simples.
+        // Se esta utilizando UNICAMENTE para la fricción, se corregirá en la implementación del nuevo input
+        movimientox = Input.GetAxisRaw("Horizontal");
         movimientoy = Input.GetAxis("Vertical");
         
         if (!tocandoSuelo)
@@ -31,8 +33,13 @@ public class Movimiento : MonoBehaviour
         //Utilizo linearVelocity en vez de AddForce para movimiento más preciso
         //EN AMBOS, INCLUYO LA VELOCIDAD LINEAL DEL EJE OPUESTO PARA QUE NO SE PIERDA DURANTE EL MOVIMIENTO
         // Ej: Si salto, mantener la velocidad de movimiento
-        rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
         
+        // Si no hay input, no tocamos la velocidad X para que la fricción pueda actuar
+        if (movimientox != 0)
+        {
+            rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
+        }
+
         //Eje Y
         //Pongo el primero para que pueda saltar solamente con W. Solución guarra de momento
         if ( Input.GetKeyDown(KeyCode.W) || ( movimientoy!= 0 && tocandoSuelo ) )

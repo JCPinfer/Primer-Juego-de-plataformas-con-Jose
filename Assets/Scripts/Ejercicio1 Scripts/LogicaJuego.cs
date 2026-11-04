@@ -112,6 +112,18 @@ public class LogicaJuego : MonoBehaviour
             panelCuidado.text = "¡Empuja el cubo!";
         }
 
+        if (collision.gameObject.CompareTag("Trigger rebote"))
+        {
+            panelCuidado.text = "Las plataformas amarillas te permiten saltar más alto.";
+            panelCuidado.enabled = true;
+        }
+
+        if (collision.gameObject.CompareTag("TriggerHielo"))
+        {
+            panelCuidado.text = "El hielo es resbaladizo, ¡Cuidado!";
+            panelCuidado.enabled = true;
+        }
+
         //KEY
         if (collision.gameObject.CompareTag("KeyObject"))
         {
@@ -130,6 +142,16 @@ public class LogicaJuego : MonoBehaviour
 
         if (collision.gameObject.CompareTag("TriggerCubo"))
         {
+            panelCuidado.enabled = false;
+        }
+
+         if (collision.gameObject.CompareTag("Trigger rebote"))
+        {
+            panelCuidado.enabled = false;
+        }
+
+        if (collision.gameObject.CompareTag("TriggerHielo"))
+        {;
             panelCuidado.enabled = false;
         }
     }

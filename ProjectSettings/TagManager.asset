@@ -13,6 +13,8 @@ TagManager:
   - KeyObject
   - Llave
   - TriggerCubo
+  - Trigger rebote
+  - TriggerHielo
   layers:
   - Default
   - TransparentFX
