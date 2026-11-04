@@ -10,6 +10,8 @@ public class LogicaJuego : MonoBehaviour
     [SerializeField] TextMeshProUGUI panelCuidado;
     [SerializeField] TextMeshProUGUI panelVidas;
     
+    [SerializeField] GameObject interfazJuego;
+    [SerializeField] GameObject pantallaPausa;
     //InGame
     [SerializeField] GameObject puerta;
     private Vector2 posicionInicial;
@@ -18,15 +20,18 @@ public class LogicaJuego : MonoBehaviour
 
     //VARIABLES DE ESTADO
     private bool vulnerable;
-    private bool enAire;
-    private int numSaltos;
 
     void Start()
     {
+        Time.timeScale = 1.0f;
+        
         //https://discussions.unity.com/t/how-can-you-enable-disable-textmeshpro-text-in-a-script/743447
         panelCuidado.enabled = false;
         monedas = 0;
+        interfazJuego.SetActive(true);
         
+        pantallaPausa.SetActive(false);
+
         panelVidas.text = "Vidas: " + vidas.ToString(); 
         
         //Asigno posicion 
@@ -40,7 +45,12 @@ public class LogicaJuego : MonoBehaviour
     }
     void Update()
     {
-        
+        //Lógica de pausar el juego
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Time.timeScale = 0f;
+            pantallaPausa.SetActive(true);
+        }
     }
 
     #region Colisiones
@@ -167,15 +177,24 @@ public class LogicaJuego : MonoBehaviour
 
     #endregion
 
-    #region TO DO
-    /*
-    TODO:
-    - Investigar sobre: Time.timeScale= 0f;
-    */
-    #endregion
 
     public void reiniciarPartida()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    #region BOTONES
+
+    #endregion
+
+    public void ContinuarPartida()
+    {
+        pantallaPausa.SetActive(false);
+        Time.timeScale = 1.0f;
+    }
+
+    public void MenuPrincipal()
+    {
+        SceneManager.LoadScene("Menu Principal");
     }
 }
