@@ -11,9 +11,9 @@ public class Movimiento : MonoBehaviour
     [SerializeField] float movimientoy = 0f;
 
     //DOBLE SALTO
-    private bool tieneDobleSalto;
-    public float tiempoDobleSalto= 1.0f;
-    private float temporizadorDobleSalto;
+    public bool tieneDobleSalto;
+    [SerializeField] float tiempoDobleSalto;
+    public float temporizadorDobleSalto;
 
     private Rigidbody2D rb;
     private bool tocandoSuelo;
@@ -58,6 +58,7 @@ public class Movimiento : MonoBehaviour
             temporizadorDobleSalto -= Time.deltaTime;
         }
         
+        
         if ( Input.GetKeyDown(KeyCode.W) &&  movimientoy!= 0 && tocandoSuelo  )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
@@ -96,6 +97,7 @@ public class Movimiento : MonoBehaviour
         {
             tocandoSuelo = false;
             Debug.Log(tocandoSuelo);
+            
         }
     }
     #endregion

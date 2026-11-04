@@ -9,6 +9,7 @@ public class LogicaJuego : MonoBehaviour
     [SerializeField] TextMeshProUGUI panelMonedas;
     [SerializeField] TextMeshProUGUI panelCuidado;
     [SerializeField] TextMeshProUGUI panelVidas;
+    [SerializeField] TextMeshProUGUI panelDobleSalto;
     
     [SerializeField] GameObject interfazJuego;
     [SerializeField] GameObject pantallaPausa;
@@ -20,6 +21,7 @@ public class LogicaJuego : MonoBehaviour
 
     //VARIABLES DE ESTADO
     private bool vulnerable;
+    private Movimiento movimientoJugador;
 
     void Start()
     {
@@ -41,7 +43,11 @@ public class LogicaJuego : MonoBehaviour
         vulnerable = true;
 
         pantallaGameOver.SetActive(false);
+
+        panelDobleSalto.text = "";
         
+        movimientoJugador = GetComponent<Movimiento>();
+
     }
     void Update()
     {
@@ -50,6 +56,16 @@ public class LogicaJuego : MonoBehaviour
         {
             Time.timeScale = 0f;
             pantallaPausa.SetActive(true);
+        }
+
+        if(movimientoJugador.tieneDobleSalto == true)
+        {
+            panelDobleSalto.text = "Tienes doble salto";
+        }
+        else
+        {
+            //panelDobleSalto.text = movimientoJugador.temporizadorDobleSalto.ToString("F2");
+            panelDobleSalto.text = "";
         }
     }
 

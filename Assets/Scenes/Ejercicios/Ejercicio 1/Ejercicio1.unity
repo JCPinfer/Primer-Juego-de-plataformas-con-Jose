@@ -22429,7 +22429,9 @@ MonoBehaviour:
   velocidady: 6
   movimientox: 0
   movimientoy: 0
+  tieneDobleSalto: 0
   tiempoDobleSalto: 1
+  temporizadorDobleSalto: 0
 --- !u!114 &1240673949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22446,6 +22448,7 @@ MonoBehaviour:
   panelMonedas: {fileID: 995248741}
   panelCuidado: {fileID: 1410711313}
   panelVidas: {fileID: 250643264}
+  panelDobleSalto: {fileID: 2134939686}
   interfazJuego: {fileID: 938112396}
   pantallaPausa: {fileID: 1881714851}
   puerta: {fileID: 1759440473}
