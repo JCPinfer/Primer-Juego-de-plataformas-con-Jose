@@ -16,6 +16,8 @@ public class LogicaJuego : MonoBehaviour
     
     [SerializeField] GameObject interfazJuego;
     [SerializeField] GameObject pantallaPausa;
+    [SerializeField] GameObject pantallaVictoria;
+
     //InGame
     [Header("Variables In-Game")]
     [SerializeField] GameObject puerta1;
@@ -36,6 +38,22 @@ public class LogicaJuego : MonoBehaviour
     [SerializeField] float intervaloParpadeo = 0.3f;
     private SpriteRenderer spriteRenderer;
 
+    [Header("SFX")]
+    [SerializeField] private AudioSource fuenteMusica;
+    [SerializeField] private AudioSource fuenteSFX;
+
+    [SerializeField] private AudioClip gameMusic;
+    [SerializeField] private AudioClip danioSonido;
+    [SerializeField] private AudioClip gameOverSonido;
+    [SerializeField] private AudioClip puertaSonido;
+    [SerializeField] private AudioClip monedaSonido;
+    [SerializeField] private AudioClip pisarEnemigoSonido;
+    [SerializeField] private AudioClip victoriaSonido;
+
+
+    [Range(0f, 1f)] [SerializeField] private float volumenMusica = 0.4f;
+    [Range(0f, 1f)] [SerializeField] private float volumenSFX = 1f;
+
     void Start()
     {
         Time.timeScale = 1.0f;
@@ -46,6 +64,7 @@ public class LogicaJuego : MonoBehaviour
         interfazJuego.SetActive(true);
         
         pantallaPausa.SetActive(false);
+        pantallaVictoria.SetActive(false);
 
         panelVidas.text = "Vidas: " + vidas.ToString(); 
         
@@ -66,6 +85,14 @@ public class LogicaJuego : MonoBehaviour
         movimientoJugador = GetComponent<Movimiento>();
 
         spriteRenderer = GetComponent<SpriteRenderer>();
+
+        //Audio
+        fuenteMusica.clip = gameMusic;
+        fuenteMusica.loop = true;
+        fuenteMusica.volume = volumenMusica;
+        fuenteMusica.Play();
+
+        fuenteSFX.volume = volumenSFX;
 
     }
     void Update()
@@ -88,7 +115,9 @@ public class LogicaJuego : MonoBehaviour
         }
 
         if (monedas == maxMonedas)
+        {
             puertaFinal.SetActive(false);
+        }
     }
 
     private IEnumerator InvulnerabilidadParpadeo()
@@ -124,7 +153,11 @@ public class LogicaJuego : MonoBehaviour
         vulnerable = false;
 
         vidas--;
+
+        fuenteSFX.PlayOneShot(danioSonido);
+        
         barraVida.value = vidas;
+
 
         if (vidas >= 0)
         {
@@ -134,7 +167,11 @@ public class LogicaJuego : MonoBehaviour
             StartCoroutine(InvulnerabilidadParpadeo());
         }
         else
+        {
+            fuenteMusica.Stop();
             pantallaGameOver.SetActive(true);
+            fuenteSFX.PlayOneShot(gameOverSonido);
+        }
     }
 
     #region Colisiones
@@ -166,6 +203,7 @@ public class LogicaJuego : MonoBehaviour
             }
         else
             {
+                fuenteSFX.PlayOneShot(pisarEnemigoSonido);
                 Destroy(collision.gameObject);  // Pisas al enemigo: lo eliminas
             }
         }
@@ -191,6 +229,7 @@ public class LogicaJuego : MonoBehaviour
         {
             collision.gameObject.SetActive(false);
             monedas++;
+            fuenteSFX.PlayOneShot(monedaSonido);
             panelMonedas.text = "Monedas: " + monedas.ToString();
         }
 
@@ -227,13 +266,16 @@ public class LogicaJuego : MonoBehaviour
 
         if (collision.gameObject.CompareTag("TriggerVictoria"))
         {
-            panelCuidado.text = "¡Has ganado!";
-            panelCuidado.enabled = true;
+            GanarJuego();
+
+            //panelCuidado.text = "¡Has ganado!";
+            //panelCuidado.enabled = true;
         }
 
         //KEY
         if (collision.gameObject.CompareTag("KeyObject"))
         {
+            fuenteSFX.PlayOneShot(puertaSonido);
             collision.gameObject.SetActive(false);
             puerta1.SetActive(false);
         }
@@ -303,5 +345,12 @@ public class LogicaJuego : MonoBehaviour
     public void MenuPrincipal()
     {
         SceneManager.LoadScene("Menu Principal");
+    }
+
+    private void GanarJuego()
+    {
+        Time.timeScale = 0f;
+        pantallaVictoria.SetActive(true);
+        fuenteSFX.PlayOneShot(victoriaSonido);
     }
 }

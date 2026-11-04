@@ -16,6 +16,10 @@ public class Movimiento : MonoBehaviour
     [SerializeField] float tiempoDobleSalto;
     public float temporizadorDobleSalto;
 
+    [Header("SFX")]
+    [SerializeField] private AudioClip saltoSonido;
+    [SerializeField] private AudioSource fuenteSalto;
+
     private Rigidbody2D rb;
     private bool tocandoSuelo;
     
@@ -63,6 +67,7 @@ public class Movimiento : MonoBehaviour
         if ( Input.GetKeyDown(KeyCode.W) &&  movimientoy!= 0 && tocandoSuelo  )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
+            fuenteSalto.PlayOneShot(saltoSonido);
 
             //LinearVelocity permite ser mas preciso EN ESTE CASO SOLAMENT, pero es recomendable utilizar rb.AddForce para fisicas más realistas
             //https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody-linearVelocity.html
@@ -73,6 +78,7 @@ public class Movimiento : MonoBehaviour
         else if ( Input.GetKeyDown(KeyCode.W) && tieneDobleSalto && temporizadorDobleSalto<=0 )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
+            fuenteSalto.PlayOneShot(saltoSonido);
             tieneDobleSalto = false;
         }
 
