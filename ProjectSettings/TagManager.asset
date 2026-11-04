@@ -16,6 +16,8 @@ TagManager:
   - Trigger rebote
   - TriggerHielo
   - TriggerPuertaFinal
+  - TriggerVictoria
+  - Enemigo
   layers:
   - Default
   - TransparentFX

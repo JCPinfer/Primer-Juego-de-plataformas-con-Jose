@@ -115,6 +115,28 @@ public class LogicaJuego : MonoBehaviour
         vulnerable = true;
     }
 
+    private void DamagePlayer()
+    {
+        //Verifico si esta en estado de invulnerabilidad. En caso que si este, ignoro el resto
+        if (!vulnerable)
+            return;
+
+        vulnerable = false;
+
+        vidas--;
+        barraVida.value = vidas;
+
+        if (vidas >= 0)
+        {
+            panelVidas.text = "Vidas: " + vidas.ToString();
+            this.transform.position = posicionInicial;
+            //CORRUTINA : PERMITO QUE UN MÉTODO PUEDA PARAR EN SU EJECUCIÓN Y RENAUDARSE MÁS TARDE
+            StartCoroutine(InvulnerabilidadParpadeo());
+        }
+        else
+            pantallaGameOver.SetActive(true);
+    }
+
     #region Colisiones
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -128,29 +150,26 @@ public class LogicaJuego : MonoBehaviour
 
         if (collision.gameObject.CompareTag("DamagePlayer"))
         {
-            //Verifico si esta en estado de invulnerabilidad. En caso que si este, ignoro el resto
-            if(!vulnerable)
-                return;  
-            
-            vulnerable = false;
             Debug.Log("Ha tocado pincho");
-
-            vidas--;
-            barraVida.value = vidas;
-
-            if(vidas>=0)
-            {
-                panelVidas.text = "Vidas: " + vidas.ToString(); 
-                this.transform.position = posicionInicial;
-
-                //CORRUTINA : PERMITO QUE UN MÉTODO PUEDA PARAR EN SU EJECUCIÓN Y RENAUDARSE MÁS TARDE
-                StartCoroutine(InvulnerabilidadParpadeo());
-                //vulnerable = true ;
-            }
-            else
-                pantallaGameOver.SetActive(true);
+            DamagePlayer();
             
         }
+
+        if (collision.gameObject.CompareTag("Enemigo"))
+{
+            Vector2 normal = collision.GetContact(0).normal;
+
+        // Calculo la Normal. Si es horizontal, el jugandor toma daño. SI no, destuye el enemigo
+        if (Mathf.Abs(normal.x) > Mathf.Abs(normal.y))
+            {
+                DamagePlayer();
+            }
+        else
+            {
+                Destroy(collision.gameObject);  // Pisas al enemigo: lo eliminas
+            }
+        }
+
         /*
         if (collision.gameObject.CompareTag("KeyObject"))
         {
