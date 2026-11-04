@@ -1260,6 +1260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8979140f6ead8d8419c2d702f0c79a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MenuPrincipal
+  fuenteSFX: {fileID: 424109033}
+  menuMusic: {fileID: 8300000, guid: 6b96cb7bce3aeed4db492a616176ee3d, type: 3}
 --- !u!1 &1738731158
 GameObject:
   m_ObjectHideFlags: 0
