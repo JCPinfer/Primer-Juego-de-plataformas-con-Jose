@@ -12,7 +12,8 @@ public class Movimiento : MonoBehaviour
 
     //DOBLE SALTO
     private bool tieneDobleSalto;
-    private float tiempoDobleSalto= 1.0f;
+    public float tiempoDobleSalto= 1.0f;
+    private float temporizadorDobleSalto;
 
     private Rigidbody2D rb;
     private bool tocandoSuelo;
@@ -22,6 +23,7 @@ public class Movimiento : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         tieneDobleSalto = true;
+        temporizadorDobleSalto = 0f;
     }
 
     void Update()
@@ -33,7 +35,7 @@ public class Movimiento : MonoBehaviour
         
         if (!tocandoSuelo)
             movimientoy = 0f;
-        
+
         //Eje X
         //Utilizo linearVelocity en vez de AddForce para movimiento más preciso
         //EN AMBOS, INCLUYO LA VELOCIDAD LINEAL DEL EJE OPUESTO PARA QUE NO SE PIERDA DURANTE EL MOVIMIENTO
@@ -49,7 +51,13 @@ public class Movimiento : MonoBehaviour
         //Pongo el primero para que pueda saltar solamente con W. Solución guarra de momento
 
         //Caso tenga doble salto, permito que el jugador realize UNO solo. Este bool se resetea 
-
+        
+        //Timer de doble salto
+        if (!tocandoSuelo && temporizadorDobleSalto > 0f)
+        {
+            temporizadorDobleSalto -= Time.deltaTime;
+        }
+        
         if ( Input.GetKeyDown(KeyCode.W) &&  movimientoy!= 0 && tocandoSuelo  )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
@@ -58,8 +66,9 @@ public class Movimiento : MonoBehaviour
             //https://docs.unity3d.com/6000.1/Documentation/ScriptReference/Rigidbody-linearVelocity.html
 
             tieneDobleSalto = true;
+
         }
-        else if ( Input.GetKeyDown(KeyCode.W) && tieneDobleSalto)
+        else if ( Input.GetKeyDown(KeyCode.W) && tieneDobleSalto && temporizadorDobleSalto<=0 )
         {
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, velocidady);
             tieneDobleSalto = false;
@@ -76,6 +85,8 @@ public class Movimiento : MonoBehaviour
         {
             tocandoSuelo = true;
             Debug.Log(tocandoSuelo);
+
+            temporizadorDobleSalto = tiempoDobleSalto;
         }
     }
 
