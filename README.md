@@ -1,5 +1,11 @@
 
+### Proyecto #1 - Plataformas Básico (2D)
+Estructura de archivos principales correspondientes al proyecto
 
-Possible sound effects:
-- [Cave Story - Grasslands](https://youtu.be/A8smb_XuiSU?si=aC5LINo8xRCUivAZ)
-- 
+    - Carpeta de código, incluyendo todos los scripts utilizados en este proyecto: 
+        Scripts -> Ejercicio1 Scripts
+    
+    - Escenas:
+        - Scenes -> Ejercicio 1 
+
+Los assets, pueden ser encontrados organizados en sus respectivas carpetas
