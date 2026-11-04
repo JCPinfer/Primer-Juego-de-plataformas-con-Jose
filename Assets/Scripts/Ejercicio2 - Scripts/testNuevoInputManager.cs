@@ -43,12 +43,12 @@ public class testNuevoInputManager : MonoBehaviour
         saltoAction.action.Enable();
         moveAction.action.Enable();
         disparoAction.action.Enable();
-        //acelerarAction.action.Enable();
+        acelerarAction.action.Enable();
 
         saltoAction.action.performed += pulsacionSalto;
         moveAction.action.performed += pulsacionMove;
         disparoAction.action.performed += pulsacionDisparo;
-        //acelerarAction.action.performed += pulsacionAcelerar;
+        acelerarAction.action.performed += pulsacionAcelerar;
     }
 
     private void OnDisable()
@@ -56,12 +56,12 @@ public class testNuevoInputManager : MonoBehaviour
         saltoAction.action.Disable();
         moveAction.action.Disable();
         disparoAction.action.Disable();
-        //acelerarAction.action.Disable();
+        acelerarAction.action.Disable();
 
         saltoAction.action.performed -= pulsacionSalto;
         moveAction.action.performed -= pulsacionMove;
         disparoAction.action.performed -= pulsacionDisparo;
-        //acelerarAction.action.performed -= pulsacionAcelerar;
+        acelerarAction.action.performed -= pulsacionAcelerar;
     }
 
     #region Acciones
@@ -101,7 +101,7 @@ public class testNuevoInputManager : MonoBehaviour
         movimientox = context.ReadValue<Vector2>().x;
         rb.linearVelocity = new Vector2(movimientox * velocidadx, rb.linearVelocity.y);
     }
-
+    
     private void pulsacionDisparo(InputAction.CallbackContext context)
     {
         if(context.control.device is Gamepad)
@@ -132,27 +132,30 @@ public class testNuevoInputManager : MonoBehaviour
         panelAccion.text = "Acelerar";
     }
 
+    private void pulsacionAtaqueCargado(InputAction.CallbackContext context)
+    {
+        if(context.control.device is Gamepad)
+        {
+            panelEntrada.text = "Gamepad";
+        }
+        
+        else if(context.control.device is Mouse)
+        {
+            panelEntrada.text = "Teclado y Ratón";
+        }
+
+        panelAccion.text = "Cargando superataque...";
+
+        panelAccion.text = "¡SUPERATAQUE EJECUTADO!";
+    }
+
     #endregion
     #region Update
     // Update is called once per frame
     void Update()
     {   
-        //Se podría poner solamente el nombre del boton virtual en el InputManager
-        //El cual se puede asignar manualmente en la config del mismo
-        //SISTEMA VIEJO:
-        
-        /*
-        if (Input.GetKeyDown(KeyCode.W)) 
-            Debug.Log("Pulsado tecla: W" );
-        */
+       // Acelerar
 
-        /*
-        if ( moveAction.action.ReadValue<Vector2>() != Vector2.zero)
-            Debug.Log( moveAction.action.ReadValue<Vector2>() );
-        */
-
-        // ACELERAR 
-        // Lo hago en UPDATE para que pueda ser continua con .ReadValue<float>()
         
     }
     #endregion
