@@ -114,7 +114,7 @@ public class LogicaJuego : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Trigger rebote"))
         {
-            panelCuidado.text = "Las plataformas amarillas te permiten saltar más alto.";
+            panelCuidado.text = "Las plataformas amarillas rebotan. Utilizalas para llegar más alto.";
             panelCuidado.enabled = true;
         }
 
