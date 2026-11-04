@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 using System.Collections;
 
 public class LogicaJuego : MonoBehaviour
@@ -17,9 +18,13 @@ public class LogicaJuego : MonoBehaviour
     [SerializeField] GameObject pantallaPausa;
     //InGame
     [Header("Variables In-Game")]
-    [SerializeField] GameObject puerta;
+    [SerializeField] GameObject puerta1;
+    [SerializeField] GameObject puertaFinal;
+
     private Vector2 posicionInicial;
     private int monedas;
+    [SerializeField] private int maxMonedas = 15 ;
+    [SerializeField] Slider barraVida;
     [SerializeField] int vidas;
 
     //VARIABLES DE ESTADO
@@ -43,6 +48,10 @@ public class LogicaJuego : MonoBehaviour
         pantallaPausa.SetActive(false);
 
         panelVidas.text = "Vidas: " + vidas.ToString(); 
+        
+        //Slider de vida
+        barraVida.maxValue = vidas;
+        barraVida.value = vidas;
         
         //Asigno posicion 
         //https://discussions.unity.com/t/how-can-i-make-my-object-go-back-to-its-start-position/181539
@@ -77,6 +86,9 @@ public class LogicaJuego : MonoBehaviour
             //panelDobleSalto.text = movimientoJugador.temporizadorDobleSalto.ToString("F2");
             panelDobleSalto.text = "";
         }
+
+        if (monedas == maxMonedas)
+            puertaFinal.SetActive(false);
     }
 
     private IEnumerator InvulnerabilidadParpadeo()
@@ -91,8 +103,9 @@ public class LogicaJuego : MonoBehaviour
         while (tiempoTranscurrido < duracionInvulnerabilidad)
         {
             // Alterna entre visible e invisible
-            spriteRenderer.enabled = !spriteRenderer.enabled;
+            spriteRenderer.enabled = !spriteRenderer.enabled; //Iguala al estado contrario sin necesidad de variable auxiliar
 
+            //Indica que tiene que tiene que pausar temporalmente aqui
             yield return new WaitForSeconds(intervaloParpadeo);
             tiempoTranscurrido += intervaloParpadeo;
         }
@@ -123,6 +136,7 @@ public class LogicaJuego : MonoBehaviour
             Debug.Log("Ha tocado pincho");
 
             vidas--;
+            barraVida.value = vidas;
 
             if(vidas>=0)
             {
@@ -141,7 +155,7 @@ public class LogicaJuego : MonoBehaviour
         if (collision.gameObject.CompareTag("KeyObject"))
         {
             collision.gameObject.SetActive(false);
-            puerta.SetActive(false);
+            puerta1.SetActive(false);
         }
         */
     }
@@ -186,11 +200,23 @@ public class LogicaJuego : MonoBehaviour
             panelCuidado.enabled = true;
         }
 
+        if (collision.gameObject.CompareTag("TriggerPuertaFinal"))
+        {
+            panelCuidado.text = "Consigue más monedas para continuar.";
+            panelCuidado.enabled = true;
+        } 
+
+        if (collision.gameObject.CompareTag("TriggerVictoria"))
+        {
+            panelCuidado.text = "¡Has ganado!";
+            panelCuidado.enabled = true;
+        }
+
         //KEY
         if (collision.gameObject.CompareTag("KeyObject"))
         {
             collision.gameObject.SetActive(false);
-            puerta.SetActive(false);
+            puerta1.SetActive(false);
         }
         
     }
@@ -213,7 +239,17 @@ public class LogicaJuego : MonoBehaviour
         }
 
         if (collision.gameObject.CompareTag("TriggerHielo"))
-        {;
+        {
+            panelCuidado.enabled = false;
+        }
+
+        if (collision.gameObject.CompareTag("TriggerPuertaFinal"))
+        {
+            panelCuidado.enabled = false;
+        }
+
+        if (collision.gameObject.CompareTag("TriggerVictoria"))
+        {
             panelCuidado.enabled = false;
         }
     }

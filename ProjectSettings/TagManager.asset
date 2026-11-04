@@ -15,6 +15,7 @@ TagManager:
   - TriggerCubo
   - Trigger rebote
   - TriggerHielo
+  - TriggerPuertaFinal
   layers:
   - Default
   - TransparentFX
