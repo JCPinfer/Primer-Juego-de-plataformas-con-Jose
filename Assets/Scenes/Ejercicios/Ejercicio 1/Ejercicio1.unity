@@ -12538,7 +12538,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &694464323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23983,6 +23983,7 @@ MonoBehaviour:
   panelDobleSalto: {fileID: 2134939686}
   interfazJuego: {fileID: 938112396}
   pantallaPausa: {fileID: 1881714851}
+  pantallaVictoria: {fileID: 694464322}
   puerta1: {fileID: 1759440473}
   puertaFinal: {fileID: 241084811}
   maxMonedas: 15
@@ -27430,7 +27431,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -446.95453, y: 0, z: -740.04004, w: 0}
+  m_margin: {x: -113.83362, y: 0, z: -994.4231, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

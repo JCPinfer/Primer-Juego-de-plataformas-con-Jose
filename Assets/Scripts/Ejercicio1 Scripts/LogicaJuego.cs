@@ -351,6 +351,7 @@ public class LogicaJuego : MonoBehaviour
     {
         Time.timeScale = 0f;
         pantallaVictoria.SetActive(true);
+        fuenteMusica.Stop();
         fuenteSFX.PlayOneShot(victoriaSonido);
     }
 }

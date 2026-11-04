@@ -22,6 +22,19 @@ public class Movimiento : MonoBehaviour
 
     private Rigidbody2D rb;
     private bool tocandoSuelo;
+
+    //ANIMACIONES 
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+
+    private string animacionActual;
+
+    private  string ANIM_IDLE    = "playeranimations";
+    private  string ANIM_CORRER  = "movement_player";
+    private  string ANIM_SALTO   = "jumping";
+    private  string ANIM_CAIDA   = "falling";
+
+
     
     #region Start & Update  
     void Start()
@@ -29,6 +42,10 @@ public class Movimiento : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         tieneDobleSalto = true;
         temporizadorDobleSalto = 0f;
+
+        //Animaciones
+        animator = GetComponent<Animator>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -82,7 +99,49 @@ public class Movimiento : MonoBehaviour
             tieneDobleSalto = false;
         }
 
-        
+        ActualizarAnimaciones();
+    }
+
+    private void ActualizarAnimaciones()
+    {
+        GirarPersonaje();
+
+        string nuevaAnimacion;
+
+        if (!tocandoSuelo)
+        {
+            // En el aire: sube = salto, baja = caída
+            if (rb.linearVelocity.y > 0.1f)
+                nuevaAnimacion = ANIM_SALTO;
+            else
+                nuevaAnimacion = ANIM_CAIDA;
+        }
+        else
+        {
+            // En el suelo: correr si hay input, si no idle
+            nuevaAnimacion = movimientox != 0 ? ANIM_CORRER : ANIM_IDLE;
+        }
+
+        CambiarAnimacion(nuevaAnimacion);
+    }
+
+    private void CambiarAnimacion(string nueva)
+    {
+        // Evita reiniciar la animación en cada frame
+        if (animacionActual == nueva) return;
+
+        animator.Play(nueva);
+        animacionActual = nueva;
+    }
+    
+    private void GirarPersonaje()
+    {
+        // El sprite mira a la IZQUIERDA por defecto,
+        // así que se invierte (flipX) cuando va a la derecha
+        if (movimientox < 0)
+            spriteRenderer.flipX = true;
+        else if (movimientox > 0)
+            spriteRenderer.flipX = false;
     }
     #endregion
 
