@@ -40,10 +40,20 @@
                     "name": "Acelerar",
                     "type": "Value",
                     "id": "41b633fc-0fa2-48ec-906e-4a8ee4ed3dc4",
-                    "expectedControlType": "",
+                    "expectedControlType": "Axis",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true,
+                    "priority": 0
+                },
+                {
+                    "name": "SuperAtaque",
+                    "type": "Button",
+                    "id": "4ed02691-2709-4632-a1e1-d473e3dc3475",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Hold(duration=1)",
+                    "initialStateCheck": false,
                     "priority": 0
                 }
             ],
@@ -221,6 +231,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Acelerar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5abc2cb8-e45b-419a-9160-ff7334f80943",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SuperAtaque",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9bd54c53-0068-4dda-b8a4-a7c58922b64b",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SuperAtaque",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

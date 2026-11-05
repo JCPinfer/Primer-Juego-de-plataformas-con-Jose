@@ -1493,6 +1493,19 @@ MonoBehaviour:
       m_Flags: 0
       m_Priority: 0
     m_Reference: {fileID: -353849896786653624, guid: 36110310d12daa543ba9207a4a30ce04, type: 3}
+  ataqueAction:
+    m_UseReference: 1
+    m_Action:
+      m_Name: Ataque
+      m_Type: 0
+      m_ExpectedControlType: 
+      m_Id: ba037592-e884-49b4-b2c3-afd6e8e4e758
+      m_Processors: 
+      m_Interactions: 
+      m_SingletonActionBindings: []
+      m_Flags: 0
+      m_Priority: 0
+    m_Reference: {fileID: 8612290321121087107, guid: 36110310d12daa543ba9207a4a30ce04, type: 3}
   panelEntrada: {fileID: 119712431}
   panelAccion: {fileID: 770140461}
   panelVelocidad: {fileID: 690082255}

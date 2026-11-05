@@ -9,6 +9,7 @@ public class testNuevoInputManager : MonoBehaviour
     [SerializeField] private InputActionProperty moveAction;
     [SerializeField] private InputActionProperty disparoAction;
     [SerializeField] private InputActionProperty acelerarAction;
+    [SerializeField] private InputActionProperty ataqueAction;
     
     [Header("Paneles")]
     [SerializeField] TextMeshProUGUI panelEntrada;
@@ -33,6 +34,7 @@ public class testNuevoInputManager : MonoBehaviour
         panelEntrada.text = "";
         panelAccion.text = "";
         panelVelocidad.text = "";
+        panelAtaque.text = "";
 
         rb = player.GetComponent<Rigidbody2D>();
     }
@@ -44,11 +46,15 @@ public class testNuevoInputManager : MonoBehaviour
         moveAction.action.Enable();
         disparoAction.action.Enable();
         acelerarAction.action.Enable();
+        ataqueAction.action.Enable();
 
         saltoAction.action.performed += pulsacionSalto;
         moveAction.action.performed += pulsacionMove;
         disparoAction.action.performed += pulsacionDisparo;
         acelerarAction.action.performed += pulsacionAcelerar;
+
+        ataqueAction.action.started += pulsacionAtaqueCargado;
+        ataqueAction.action.performed += pulsacionAtaqueCargado;
     }
 
     private void OnDisable()
@@ -57,11 +63,15 @@ public class testNuevoInputManager : MonoBehaviour
         moveAction.action.Disable();
         disparoAction.action.Disable();
         acelerarAction.action.Disable();
+        ataqueAction.action.Disable();
 
         saltoAction.action.performed -= pulsacionSalto;
         moveAction.action.performed -= pulsacionMove;
         disparoAction.action.performed -= pulsacionDisparo;
         acelerarAction.action.performed -= pulsacionAcelerar;
+
+        ataqueAction.action.started -= pulsacionAtaqueCargado;
+        ataqueAction.action.performed -= pulsacionAtaqueCargado;
     }
 
     #region Acciones
@@ -124,7 +134,7 @@ public class testNuevoInputManager : MonoBehaviour
             panelEntrada.text = "Gamepad";
         }
         
-        else if(context.control.device is Mouse)
+        else if(context.control.device is Keyboard)
         {
             panelEntrada.text = "Teclado y Ratón";
         }
@@ -139,14 +149,19 @@ public class testNuevoInputManager : MonoBehaviour
             panelEntrada.text = "Gamepad";
         }
         
-        else if(context.control.device is Mouse)
+        else if(context.control.device is Keyboard)
         {
             panelEntrada.text = "Teclado y Ratón";
         }
-
-        panelAccion.text = "Cargando superataque...";
-
-        panelAccion.text = "¡SUPERATAQUE EJECUTADO!";
+    
+        if (context.started)
+        {
+            panelAccion.text = "Cargando superataque...";
+        }
+        else if (context.performed)
+        {
+            panelAccion.text = "¡SUPERATAQUE EJECUTADO!";
+        }
     }
 
     #endregion
@@ -155,8 +170,12 @@ public class testNuevoInputManager : MonoBehaviour
     void Update()
     {   
        // Acelerar
-
+        float aceleracion = acelerarAction.action.ReadValue<float>();
         
+        if (aceleracion > 0)
+            panelVelocidad.text = aceleracion.ToString();
+        else
+            panelVelocidad.text = "";
     }
     #endregion
 }
