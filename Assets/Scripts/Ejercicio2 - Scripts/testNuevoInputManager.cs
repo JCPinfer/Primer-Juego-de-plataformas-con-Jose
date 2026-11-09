@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -29,6 +30,10 @@ public class testNuevoInputManager : MonoBehaviour
     private float valorAcelerar = 0f ;
     private float maximoAcelerar = 1.0f;
 
+    //Animaciones
+    private Animator animator;
+    private SpriteRenderer spriteRenderer;
+
     void Start()
     {
         panelEntrada.text = "";
@@ -37,8 +42,11 @@ public class testNuevoInputManager : MonoBehaviour
         panelAtaque.text = "";
 
         rb = player.GetComponent<Rigidbody2D>();
+        animator = rb.GetComponent<Animator>();
+        spriteRenderer = rb.GetComponent<SpriteRenderer>();
     }
 
+    #region Botones implementacion
     //CLASES ESTANDAR DE UNITY
     private void OnEnable()
     {
@@ -74,6 +82,8 @@ public class testNuevoInputManager : MonoBehaviour
         ataqueAction.action.performed -= pulsacionAtaqueCargado;
     }
 
+    #endregion
+    
     #region Acciones
     private void pulsacionSalto(InputAction.CallbackContext context)
     {
@@ -165,6 +175,7 @@ public class testNuevoInputManager : MonoBehaviour
     }
 
     #endregion
+    
     #region Update
     // Update is called once per frame
     void Update()
@@ -176,6 +187,16 @@ public class testNuevoInputManager : MonoBehaviour
             panelVelocidad.text = aceleracion.ToString();
         else
             panelVelocidad.text = "";
+
+        
+        // Animaciones we
+        if (movimientox < 0)
+            spriteRenderer.flipX = true;
+        else if (movimientox > 0)
+            spriteRenderer.flipX = false;
+
+        animator.SetFloat( "Andando", Math.Abs (movimientox) );
+        animator.SetFloat( "Salto", Math.Abs (movimientoy) );
     }
     #endregion
 }
