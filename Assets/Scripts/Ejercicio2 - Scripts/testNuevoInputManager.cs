@@ -196,7 +196,7 @@ public class testNuevoInputManager : MonoBehaviour
             spriteRenderer.flipX = false;
 
         animator.SetFloat( "Andando", Math.Abs (movimientox) );
-        animator.SetFloat( "Salto", Math.Abs (movimientoy) );
+        animator.SetFloat( "Salto", Math.Abs (rb.linearVelocity.y) );
     }
     #endregion
 }
