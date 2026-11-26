@@ -1,7 +1,12 @@
+using System;
 using UnityEngine;
 
 public class Movimiento : MonoBehaviour
 {
+
+
+    // EJEMPLO EVENTO
+    public static event Action OnColisionConEnemigo;
     
     // Variables de movimiento del jugador
     [Header("Configuración de Movimiento")]
@@ -151,9 +156,18 @@ public class Movimiento : MonoBehaviour
         if (collision.gameObject.tag == "Plataformas")
         {
             tocandoSuelo = true;
-            Debug.Log(tocandoSuelo);
+            //Debug.Log(tocandoSuelo);
 
             temporizadorDobleSalto = tiempoDobleSalto;
+        }
+
+        
+        // Imaginando que tenemos colision con moneda, este caso sera enemigo??? 
+        if (collision.gameObject.tag == "Enemigo")
+        {
+            Debug.Log("Antes de lanzar colision con enemigo");
+
+            OnColisionConEnemigo?.Invoke();
         }
     }
 
@@ -162,7 +176,7 @@ public class Movimiento : MonoBehaviour
         if (collision.gameObject.tag == "Plataformas") 
         {
             tocandoSuelo = false;
-            Debug.Log(tocandoSuelo);
+            //Debug.Log(tocandoSuelo);
             
         }
     }
